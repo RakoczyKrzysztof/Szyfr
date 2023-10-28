@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Szyfrowanie Wiadomości</title>
+</head>
+
+<body>
+    <h1>Szyfrowanie Wiadomości</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="wiadomosc">Wiadomość:</label>
+        <textarea name="wiadomosc" placeholder="Wprowadź wiadomość"></textarea>
+
+        <label for="szyfr">Szyfr:</label>
+        <select name="szyfr">
+            <option value="cezar">Szyfr Cezara</option>
+            <option value="decezar">Deszyfracja Cezara</option>
+            <option value="szyfr2">szyfr2</option>
+            <option value="deszyfr2">deszyfr2</option>
+            <!-- Dodaj więcej opcji dla innych dostępnych szyfrów -->
+        </select>
+
+        {% if szyfr == cezar %}
+        <label for="klucz">Klucz (liczby całkowite):</label>
+        <input name="klucz" placeholder="Wprowadź klucz" required>
+        <span title="Wprowadz dowolna ilosc kluczy po przecinku">[?]</span>
+        {% endif %}
+
+
+        <input type="submit" value="Zakoduj">
+    </form>
+    {% if zakodowana_wiadomosc %}
+    <textarea readonly>{{ zakodowana_wiadomosc }}</textarea>
+    {% endif %}
+</body>
+
+</html>
