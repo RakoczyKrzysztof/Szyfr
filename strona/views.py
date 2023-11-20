@@ -91,21 +91,25 @@ def toList(string):
     return numbers
 
 def kod(request):
-    if request.method == 'POST':
-            wiadomosc = request.POST.get('wiadomosc') 
-            if (request.POST.get('szyfr') == 'cezar'):
-                klucz = toList(request.POST.get('klucz'))
-                zakodowana_wiadomosc = cezarSzyfr(wiadomosc,klucz) 
-            elif (request.POST.get('szyfr') == 'decezar'):
-                klucz = toList(request.POST.get('klucz'))
-                inv_klucz = [-x for x in klucz]
-                zakodowana_wiadomosc = cezarSzyfr(wiadomosc,inv_klucz) 
-            elif (request.POST.get('szyfr') == 'vinegar' or request.POST.get('szyfr') == 'devinegar'):
-                klucz = request.POST.get('klucz')
-                key = generateKey(wiadomosc,klucz)
-                if (request.POST.get('szyfr') == 'vinegar'):
-                    zakodowana_wiadomosc = cipherText(wiadomosc, key)
-                else:
-                    zakodowana_wiadomosc = originalText(wiadomosc, key)  
-            return render(request, 'page.html', {'zakodowana_wiadomosc': zakodowana_wiadomosc})
+    try:
+        if request.method == 'POST':
+                wiadomosc = request.POST.get('wiadomosc') 
+                if (request.POST.get('szyfr') == 'cezar'):
+                    klucz = toList(request.POST.get('klucz'))
+                    zakodowana_wiadomosc = cezarSzyfr(wiadomosc,klucz) 
+                elif (request.POST.get('szyfr') == 'decezar'):
+                    klucz = toList(request.POST.get('klucz'))
+                    inv_klucz = [-x for x in klucz]
+                    zakodowana_wiadomosc = cezarSzyfr(wiadomosc,inv_klucz) 
+                elif (request.POST.get('szyfr') == 'vinegar' or request.POST.get('szyfr') == 'devinegar'):
+                    klucz = request.POST.get('klucz')
+                    key = generateKey(wiadomosc,klucz)
+                    if (request.POST.get('szyfr') == 'vinegar'):
+                        zakodowana_wiadomosc = cipherText(wiadomosc, key)
+                    else:
+                        zakodowana_wiadomosc = originalText(wiadomosc, key)  
+                return render(request, 'page.html', {'zakodowana_wiadomosc': zakodowana_wiadomosc})
+    except:
+        zakodowana_wiadomosc = "Zły format klucza"
+        return render(request, 'page.html', {'zakodowana_wiadomosc': zakodowana_wiadomosc})
     return render(request, 'page.html')
